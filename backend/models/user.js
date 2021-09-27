@@ -8,6 +8,7 @@ const UserSchema = new Schema({
   last_name: String,
   profile_photo: String,
   birthday: Date,
+  facebookId: String,
   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   likes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
 });

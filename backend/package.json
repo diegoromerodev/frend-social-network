@@ -8,19 +8,25 @@
     "start": "node app.js",
     "devstart": "nodemon app.js"
   },
+  "engines": {
+      "node": "14.15.1"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "luxon": "^2.0.2",
     "mongoose": "^6.0.7",
     "nodemon": "^2.0.13",
     "passport": "^0.5.0",
     "passport-facebook": "^3.0.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
