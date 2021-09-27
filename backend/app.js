@@ -11,4 +11,12 @@ app.get('/', (req, res) => {
   res.send('ALL SET');
 });
 
+app.use((req, res, next) => {
+  next(new Error(404));
+});
+
+app.use((err, req, res, next) => {
+  res.json('PLEASE REFER BACK TO API DOCUMENTATION, ERROR OR BAD REQUEST');
+});
+
 app.listen(3000);
