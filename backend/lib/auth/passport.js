@@ -4,7 +4,7 @@ const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const passport = require('passport');
-// require('dotenv').config();
+require('dotenv').config();
 
 passport.use(new LocalStrategy((username, password, done) => {
   User.findOne({ username }).exec((err, user) => {
@@ -31,11 +31,8 @@ passport.use(new JWTStrategy({
 passport.use(new FacebookStrategy({
   clientID: process.env.appId,
   clientSecret: process.env.appSecret,
-  callbackURL: 'https//frend-social.herokuapp.com/auth/callback',
-
-}, (accessToken, refreshToken, profile, cb) => {
-  User.find({ facebookId: profile.id }).exec((err, user) => {
-    console.log(profile);
-  });
-  return cb(err, user);
-}));
+  callbackURL: 'http://localhost:3000/auth/facebook/callback',
+},
+((accessToken, refreshToken, profile, cb) => {
+  console.log(profile);
+})));
