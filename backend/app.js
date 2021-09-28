@@ -27,4 +27,4 @@ app.use((err, req, res, next) => {
   res.json('PLEASE REFER BACK TO API DOCUMENTATION, ERROR OR BAD REQUEST');
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
