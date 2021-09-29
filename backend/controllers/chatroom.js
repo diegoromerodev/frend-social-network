@@ -5,7 +5,7 @@ exports.importChatroomsIO = (receiveIO) => {
 };
 
 exports.chatroom_message_post = (req, res, next) => {
-  const message = 'IS THIS FINALLY MY FIRST MESSAGE?';
-  io.to('USERIDTOBEADDED').emit('message', message);
+  const message = 'IS THIS FINALLY MY LAST MESSAGE?';
+  io.to('tempUserID').emit('message', message);
   res.json(message);
 };

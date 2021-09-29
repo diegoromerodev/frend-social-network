@@ -2,9 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const { Server } = require('socket.io');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
+const { validate_token } = require('./controllers/auth');
 
 require('./lib/auth/passport');
 require('dotenv').config();
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 app.use('/auth', authRouter);
-app.use('/users', usersRouter);
+app.use('/users', validate_token, usersRouter);
 
 app.use((req, res, next) => {
   next(new Error(404));

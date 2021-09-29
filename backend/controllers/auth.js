@@ -23,6 +23,4 @@ exports.local_auth = (req, res, next) => {
   }))(req, res);
 };
 
-exports.validate_token = [passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  res.json(req.user);
-}];
+exports.validate_token = passport.authenticate('jwt', { session: false });

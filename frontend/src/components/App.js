@@ -7,10 +7,11 @@ export default () => {
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
     const socket = io("http://localhost:3000");
-    socket.on("connection", (socketData) => {
-      socketData.join("USERIDTOBEADDED");
+    socket.on("connect", () => {
+      socket.emit("enter", "tempUserID");
     });
     socket.on("message", (messageObj) => {
+      console.log("received");
       setMessages((prevState) => [messageObj, ...prevState]);
     });
     socket.on("notification", (notiObj) => {
@@ -45,7 +46,6 @@ export default () => {
       )}
       <FacebookLogin
         appId="1474724352891583"
-        autoLoad
         fields="first_name,last_name,birthday,email,picture"
         callback={handleClick}
       />

@@ -12,6 +12,7 @@ const UserSchema = new Schema({
   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   likes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   email: String,
+  password: { type: String, default: 'CatPasswordIsACat' },
 });
 
 UserSchema.virtual('full_name').get(function getter() {

@@ -1,9 +1,9 @@
-const User = require('../../models/user');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const FacebookTokenStrategy = require('passport-facebook-token');
 const passport = require('passport');
+const User = require('../../models/user');
 require('dotenv').config();
 
 passport.use(new LocalStrategy((username, password, done) => {

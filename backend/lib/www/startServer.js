@@ -10,8 +10,10 @@ const io = new Server(server, {
   },
 });
 
-io.on('create-room', () => {
-  console.log('connected');
+io.on('connect', (client) => {
+  client.on('enter', (roomID) => {
+    client.join(roomID);
+  });
 });
 
 importChatroomsIO(io);

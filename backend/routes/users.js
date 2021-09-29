@@ -1,29 +1,21 @@
 const express = require('express');
-const { validate_token } = require('../controllers/auth');
-const { chatroom_message_post } = require('../controllers/chatroom');
-const { notification_post } = require('../controllers/notification');
+const {
+  users_all_get, users_new_post, users_one_get, users_one_update, users_one_delete,
+} = require('../controllers/user');
 
 const router = express.Router();
 
 /* USER REGISTRY OPERATIONS */
 
-router.get('/', validate_token);
+router.get('/', users_all_get);
 
-router.post('/', (req, res, next) => {
-  res.json('NOT IMPLEMENTED POST NEW USER');
-});
+router.post('/', users_new_post);
 
-router.get('/:userId', (req, res, next) => {
-  res.json(`NOT IMPLEMENTED GET ONE USER ${req.params.userId}`);
-});
+router.get('/:userId', users_one_get);
 
-router.put('/:userId', (req, res, next) => {
-  res.json(`NOT IMPLEMENTED UPDATE ONE USER ${req.params.userId}`);
-});
+router.put('/:userId', users_one_update);
 
-router.delete('/:userId', (req, res, next) => {
-  res.json(`NOT IMPLEMENTED DELETE ONE USER ${req.params.userId}`);
-});
+router.delete('/:userId', users_one_delete);
 
 /* USER POSTS ACTIONS */
 
@@ -85,7 +77,7 @@ router.get('/:userId/chatrooms/:chatId/messages', (req, res, next) => {
   res.json(`NOT IMPLEMENTED GET ALL USER CHAT MESSAGES FROM CHAT ${req.params.chatId}`);
 });
 
-router.post('/:userId/chatrooms/:chatId/messages', chatroom_message_post);
+router.post('/:userId/chatrooms/:chatId/messages');
 
 router.delete('/:userId/chatrooms/:chatId/messages/:messageId', (req, res, next) => {
   res.json(`NOT IMPLEMENTED DELETE ONE USER CHAT MESSAGE FROM CHAT ${req.params.chatId}`);
@@ -97,7 +89,7 @@ router.get('/:userId/notifications/', (req, res, next) => {
   res.json(`NOT IMPLEMENTED GET ALL NOTIFICATIONS FOR USER ${req.params.userId}`);
 });
 
-router.post('/:userId/notifications/', notification_post);
+router.post('/:userId/notifications/');
 
 router.put('/:userId/notifications/:notiId/', (req, res, next) => {
   res.json(`NOT IMPLEMENTED UPDATE USER NOTIFICATION ${req.params.notiId}`);
