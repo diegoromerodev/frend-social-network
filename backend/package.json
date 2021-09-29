@@ -15,28 +15,25 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "luxon": "^2.0.2",
     "mongoose": "^6.0.8",
     "nodemon": "^2.0.13",
     "passport": "^0.5.0",
-    "passport-facebook": "^3.0.0",
     "passport-facebook-token": "^4.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "remove": "^0.1.5",
     "socket.io": "^4.2.0"
   },
   "devDependencies": {
-    "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.2.3",
-    "mongodb-memory-server": "^7.4.1",
     "prettier": "^2.4.1"
   }
 }
