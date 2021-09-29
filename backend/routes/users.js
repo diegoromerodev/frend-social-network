@@ -1,12 +1,13 @@
 const express = require('express');
+const { validate_token } = require('../controllers/auth');
+const { chatroom_message_post } = require('../controllers/chatroom');
+const { notification_post } = require('../controllers/notification');
 
 const router = express.Router();
 
 /* USER REGISTRY OPERATIONS */
 
-router.get('/', (req, res, next) => {
-  res.json('NOT IMPLEMENTED GET ALL USERS');
-});
+router.get('/', validate_token);
 
 router.post('/', (req, res, next) => {
   res.json('NOT IMPLEMENTED POST NEW USER');
@@ -84,12 +85,26 @@ router.get('/:userId/chatrooms/:chatId/messages', (req, res, next) => {
   res.json(`NOT IMPLEMENTED GET ALL USER CHAT MESSAGES FROM CHAT ${req.params.chatId}`);
 });
 
-router.post('/:userId/chatrooms/:chatId/messages', (req, res, next) => {
-  res.json(`NOT IMPLEMENTED CREATE NEW USER CHAT MESSAGE FROM CHAT ${req.params.chatId}`);
-});
+router.post('/:userId/chatrooms/:chatId/messages', chatroom_message_post);
 
 router.delete('/:userId/chatrooms/:chatId/messages/:messageId', (req, res, next) => {
   res.json(`NOT IMPLEMENTED DELETE ONE USER CHAT MESSAGE FROM CHAT ${req.params.chatId}`);
+});
+
+/* USER NOTIFICATION ACTIONS */
+
+router.get('/:userId/notifications/', (req, res, next) => {
+  res.json(`NOT IMPLEMENTED GET ALL NOTIFICATIONS FOR USER ${req.params.userId}`);
+});
+
+router.post('/:userId/notifications/', notification_post);
+
+router.put('/:userId/notifications/:notiId/', (req, res, next) => {
+  res.json(`NOT IMPLEMENTED UPDATE USER NOTIFICATION ${req.params.notiId}`);
+});
+
+router.delete('/:userId/notifications/:notiId/', (req, res, next) => {
+  res.json(`NOT IMPLEMENTED DELETE NOTIFICATION ${req.params.notiId}`);
 });
 
 module.exports = router;

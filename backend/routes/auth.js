@@ -1,23 +1,12 @@
 const express = require('express');
-const passport = require('passport');
+const { facebook_auth, local_auth } = require('../controllers/auth');
 
 const router = express.Router();
 
 /* AUTHENTICATE USER */
 
-router.get('/facebook', passport.authenticate('facebook'));
+router.post('/facebook', facebook_auth);
 
-router.get('/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }, () => {
-    console.log('AAAAAAAAAAH', req.user);
-  }),
-  (req, res) => {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
-
-router.post('/local', (req, res, next) => {
-  res.json('NOT IMPLEMENTED LOCAL AUTHENTICATION');
-});
+router.post('/local', local_auth);
 
 module.exports = router;

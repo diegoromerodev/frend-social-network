@@ -2,9 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
-require('dotenv').config();
+const { Server } = require('socket.io');
+const http = require('http');
 const authRouter = require('./routes/auth');
+const usersRouter = require('./routes/users');
+
 require('./lib/auth/passport');
+require('dotenv').config();
 
 const app = express();
 mongoose.connect(process.env.database);
@@ -18,13 +22,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 app.use('/auth', authRouter);
+app.use('/users', usersRouter);
 
 app.use((req, res, next) => {
   next(new Error(404));
 });
 
 app.use((err, req, res, next) => {
-  res.json('PLEASE REFER BACK TO API DOCUMENTATION, ERROR OR BAD REQUEST');
+  res.status(err.message || 400).json('PLEASE REFER BACK TO API DOCUMENTATION, ERROR OR BAD REQUEST');
 });
 
-app.listen(process.env.PORT || 3000);
+module.exports = app;
