@@ -1,7 +1,11 @@
-const { Server } = require('socket.io');
-const server = require('../lib/www/serverSetup');
+let io;
+
+exports.importChatroomsIO = (receiveIO) => {
+  io = receiveIO;
+};
 
 exports.chatroom_message_post = (req, res, next) => {
-  const io = new Server(server);
-  console.log(io);
+  const message = 'IS THIS FINALLY MY FIRST MESSAGE?';
+  io.to('USERIDTOBEADDED').emit('message', message);
+  res.json(message);
 };

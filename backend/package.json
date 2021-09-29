@@ -5,11 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node lib/www/serverSetup.js",
-    "devstart": "nodemon lib/www/serverSetup.js"
-  },
-  "engines": {
-    "node": "14.15.1"
+    "start": "node lib/www/startServer.js",
+    "devstart": "nodemon lib/www/startServer.js"
   },
   "author": "",
   "license": "ISC",

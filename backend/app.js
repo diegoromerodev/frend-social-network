@@ -3,7 +3,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const { Server } = require('socket.io');
-const http = require('http');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 
