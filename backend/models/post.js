@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const PostSchema = new Schema({
-  title: String,
   text: String,
   created_at: { type: Date, default: Date.now },
   image: String,
