@@ -16,6 +16,9 @@ const PostSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
+    toObject: {
+      virtuals: true,
+    },
   }
 );
 
@@ -24,6 +27,7 @@ PostSchema.virtual("formatted_creation").get(function getter() {
 });
 
 PostSchema.virtual("url_formatter").get(function getter() {
+  if (!this.image) return null;
   if (this.image.match(/^https?:\/\//)) {
     return this.image;
   }

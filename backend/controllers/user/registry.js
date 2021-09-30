@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const upload = require("../../lib/media/imageUpload");
 const User = require("../../models/user");
 
 /* USER REGISTRY OPERATIONS */
@@ -12,6 +13,7 @@ exports.users_all_get = (req, res, next) => {
 };
 
 exports.users_new_post = [
+  upload.single("photo"),
   body("first_name", "First name can't be empty")
     .trim()
     .isLength({ min: 1 })
@@ -33,6 +35,7 @@ exports.users_new_post = [
       last_name: req.body.last_name,
       email: req.body.email,
       birthday: req.body.birthday || new Date(0),
+      profile_photo: req.file.filename,
     }).save((err, user) => {
       if (err) return next(err);
       res.json(user.toObject());
@@ -72,6 +75,7 @@ exports.users_one_update = [
       email: req.body.email,
       birthday: req.body.birthday || new Date(0),
     };
+    if (req.file) userUpdates.profile_photo = req.file.filename;
     User.findByIdAndUpdate(req.params.userId, userUpdates, (err, user) => {
       if (err) return next(err);
       const updatedUser = user.toObject();
