@@ -1,51 +1,42 @@
 const express = require("express");
+const {
+  posts_all_get,
+  post_one_get,
+  post_like_post,
+  post_like_delete,
+  post_comment_new_post,
+  post_comment_update_put,
+  post_comment_delete,
+  post_comment_like_post,
+  post_comment_like_delete,
+} = require("../controllers/post");
 
 const router = express.Router();
 
 /* POST BASIC OPERATIONS */
 
-router.get("/", (req, res, next) => {
-  res.json("NOT IMPLEMENTED GET ALL POSTS");
-});
+router.get("/", posts_all_get);
 
-router.get("/:postId", (req, res, next) => {
-  res.json(`NOT IMPLEMENTED GET ONE POST ${req.params.postId}`);
-});
-
-router.get("/", (req, res, next) => {
-  res.json("NOT IMPLEMENTED GET ALL POSTS");
-});
-
-router.put("/:postId", (req, res, next) => {
-  res.json(`NOT IMPLEMENTED UPDATE ONE POST ${req.params.postId}`);
-});
-
-router.delete("/:postId", (req, res, next) => {
-  res.json(`NOT IMPLEMENTED DELETE ONE POST ${req.params.postId}`);
-});
+router.get("/:postId", post_one_get);
 
 /* POST LIKES OPERATIONS */
 
-router.post("/:postId/likes", (req, res, next) => {
-  res.json(`ADD NEW LIKE FOR POST ${req.params.postId}`);
-});
+router.post("/:postId/likes", post_like_post);
 
-router.delete("/:postId/likes/:likeId", (req, res, next) => {
-  res.json(`REMOVE LIKE FOR POST ${req.params.postId}`);
-});
+router.delete("/:postId/likes/", post_like_delete);
 
 /* POST COMMENT OPERATIONS */
 
-router.post("/:postId/comments", (req, res, next) => {
-  res.json(`ADD NEW COMMENT ON POST ${req.params.postId}`);
-});
+router.post("/:postId/comments", post_comment_new_post);
 
-router.put("/:postId/comments/:commentId", (req, res, next) => {
-  res.json(`UPDATE COMMENT ON POST ${req.params.postId}`);
-});
+router.put("/:postId/comments/:commentId", post_comment_update_put);
 
-router.delete("/:postId/comments/:commentId", (req, res, next) => {
-  res.json(`REMOVE COMMENT ON POST ${req.params.postId}`);
-});
+router.delete("/:postId/comments/:commentId", post_comment_delete);
+
+/* POST COMMENT LIKE OPERATIONS */
+
+router.post("/:postId/comments/:commentId/likes", post_comment_like_post);
+
+router.delete("/:postId/comments/:commentId/likes", post_comment_like_delete);
 
 module.exports = router;

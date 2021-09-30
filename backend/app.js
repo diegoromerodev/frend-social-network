@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const authRouter = require("./routes/auth");
 const usersRouter = require("./routes/users").router;
+const postsRouter = require("./routes/posts");
 const { validate_token } = require("./controllers/auth");
 const path = require("path");
 
@@ -24,6 +25,7 @@ app.use(passport.initialize());
 
 app.use("/auth", authRouter);
 app.use("/users", validate_token, usersRouter);
+app.use("/posts", validate_token, postsRouter);
 
 app.use((req, res, next) => {
   next(new Error(404));

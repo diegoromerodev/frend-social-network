@@ -1,8 +1,31 @@
 const { body, validationResult } = require("express-validator");
+const async = require("async");
 const upload = require("../../lib/media/imageUpload");
+const User = require("../../models/user");
+const Post = require("../../models/post");
 
 /* USER POSTS ACTIONS */
-const Post = require("../../models/post");
+
+exports.user_feed_get = (req, res, next) => {
+  async.waterfall(
+    [
+      (callback) => {
+        User.findById(req.params.userId).select("friends").exec(callback);
+      },
+      ({ friends }, callback) => {
+        console.log(friends);
+        Post.where("author")
+          .in(friends)
+          .sort({ created_at: -1 })
+          .exec(callback);
+      },
+    ],
+    (err, posts) => {
+      if (err) return next(err);
+      res.json(posts);
+    }
+  );
+};
 
 exports.user_posts_get = (req, res, next) => {
   Post.find()

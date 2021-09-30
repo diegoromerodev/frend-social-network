@@ -11,6 +11,7 @@ const PostSchema = new Schema(
     author: { type: Schema.Types.ObjectId, ref: "User" },
     likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
     heading: String,
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   {
     toJSON: {

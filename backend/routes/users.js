@@ -23,6 +23,7 @@ const {
   user_posts_new_post,
   user_posts_update_put,
   user_posts_delete,
+  user_feed_get,
 } = require("../controllers/user/posts");
 const {
   users_all_get,
@@ -56,6 +57,8 @@ router.put("/:userId", users_one_update);
 router.delete("/:userId", users_one_delete);
 
 /* USER POSTS ACTIONS */
+
+router.get("/:userId/feed", user_feed_get);
 
 router.get("/:userId/posts", user_posts_get);
 
