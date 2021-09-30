@@ -1,4 +1,25 @@
 const { body, validationResult } = require("express-validator");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, "./public/images");
+  },
+  filename(req, file, cb) {
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    const extension = file.mimetype.split("/")[1];
+    cb(null, `${file.fieldname}-${uniqueSuffix}.${extension}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    console.log("HERE IS FILE", file);
+    if (file.mimetype.split("/")[0] !== "image") return cb(null, false);
+    cb(null, true);
+  },
+});
 
 /* USER POSTS ACTIONS */
 const Post = require("../../models/post");
@@ -26,6 +47,7 @@ exports.user_post_one_get = (req, res, next) => {
 };
 
 exports.user_posts_new_post = [
+  upload.single("image"),
   body("text", "Post text can't be empty").trim().isLength({ min: 1 }).escape(),
   (req, res, next) => {
     if (req.user._id.toString() !== req.params.userId)
@@ -35,7 +57,7 @@ exports.user_posts_new_post = [
     new Post({
       text: req.body.text,
       author: req.user,
-      image: req.body.image,
+      image: req.file?.filename,
       heading: req.body.heading,
     }).save((err, post) => {
       if (err) return next(err);
@@ -49,6 +71,7 @@ exports.user_posts_new_post = [
 ];
 
 exports.user_posts_update_put = [
+  upload.single("image"),
   body("text", "Post text can't be empty").trim().isLength({ min: 1 }).escape(),
   (req, res, next) => {
     if (req.user._id.toString() !== req.params.userId)
@@ -63,7 +86,7 @@ exports.user_posts_update_put = [
         if (!post) return next(404);
         post.text = req.body.text;
         post.author = req.user;
-        post.image = req.body.image;
+        if (req.file) post.image = req.file.filename;
         post.heading = req.body.heading;
         post.date = req.body.date;
         post.save();

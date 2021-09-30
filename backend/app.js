@@ -5,6 +5,7 @@ const passport = require("passport");
 const authRouter = require("./routes/auth");
 const usersRouter = require("./routes/users").router;
 const { validate_token } = require("./controllers/auth");
+const path = require("path");
 
 require("./lib/auth/passport");
 require("dotenv").config();
@@ -15,6 +16,7 @@ mongoose.connect(process.env.database);
 const database = mongoose.connection;
 database.on("error", console.error);
 
+app.use(express.static(path.resolve(__dirname, "public")));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
