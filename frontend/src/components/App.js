@@ -12,6 +12,13 @@ import { ImageForContainer, Separator } from "./utilities/Misc";
 import Post from "./Post";
 import Chatroom from "./Chatroom";
 import FriendRequests from "./FriendRequests";
+import Loading from "./popups/Loading";
+import Search from "./popups/Search";
+import NewPost from "./popups/NewPost";
+import Notifications from "./popups/Notifications";
+import ProfileHeader from "./utilities/ProfileHeader";
+import EditProfile from "./popups/EditProfile";
+import GeneralOptions from "./popups/GeneralOptions";
 
 export default () => {
   const [messages, setMessages] = useState([]);
@@ -86,6 +93,14 @@ export default () => {
         />
         <Chatroom />
         <FriendRequests />
+        <Loading />
+        <Search />
+        <NewPost type="post" />
+        <NewPost type="comment" />
+        <Notifications />
+        <ProfileHeader />
+        <EditProfile />
+        <GeneralOptions />
       </HashRouter>
     </BigContainer>
   );

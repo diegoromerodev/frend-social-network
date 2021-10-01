@@ -63,6 +63,11 @@ export const CircleContainer = styled.div`
   border-radius: 50%;
   overflow: hidden;
   border: 0.2em solid ${blue};
+  &.large {
+    width: 6em;
+    height: 6em;
+    border: 0.4em solid ${blue};
+  }
 `;
 
 export const FlexColumnGrowElementCenter = styled.div`
@@ -75,6 +80,9 @@ export const FlexColumnGrowElementCenter = styled.div`
   }
   &.gap-y {
     gap: 0.5em;
+  }
+  &.invert {
+    flex-direction: row;
   }
 `;
 

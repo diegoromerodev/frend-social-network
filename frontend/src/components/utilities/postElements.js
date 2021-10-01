@@ -7,7 +7,7 @@ import {
   FlexContainer,
 } from "./SpaceContainers";
 import { ImageForContainer, StyledIcon, StyledRegularP } from "./Misc";
-import { lighter, mild, white } from "./colors";
+import { lighter, mild, milder, white } from "./colors";
 
 export const PostImage = styled.img`
   max-height: 50vh;
@@ -41,6 +41,7 @@ export const BoldRegularLink = styled(Link)`
   color: ${white};
   font-weight: 500;
   text-decoration: none;
+  display: flex;
 `;
 
 export const PostHeader = ({ image, username, date, heading }) => {
@@ -65,6 +66,7 @@ export const PostWrapper = styled.div`
   margin: 1em 1em;
   border-radius: 0.5rem;
   overflow: hidden;
+  background-color: ${milder};
 `;
 
 export const LikesContainer = styled.div`

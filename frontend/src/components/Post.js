@@ -55,6 +55,7 @@ export default ({ post }) => {
           <StyledIcon className="fa-solid fa-comments" />
           &nbsp;Comment
         </RegularButton>
+        <RegularButton className="red">Delete Post</RegularButton>
         <Separator />
       </FlexContainer>
       <MessageContainer className="comments">

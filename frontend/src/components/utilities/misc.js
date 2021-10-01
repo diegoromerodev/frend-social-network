@@ -23,8 +23,17 @@ export const StyledRegularP = styled.p`
   &.right-align {
     text-align: right;
   }
+  &.large {
+    font-size: 1.5rem;
+  }
 `;
 
 export const StyledIcon = styled.i`
   color: ${lighter};
+  &.white {
+    color: ${white};
+  }
+  &.large {
+    font-size: 1.4rem;
+  }
 `;

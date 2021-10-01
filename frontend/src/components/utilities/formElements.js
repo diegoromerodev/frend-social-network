@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { blue, light, lighter, mild, milder, white } from "./colors";
+import { blue, light, lighter, mild, milder, red, white } from "./colors";
 
 export const RoundedInputButton = styled.button`
   flex-grow: 1;
@@ -66,6 +66,13 @@ export const RegularButton = styled.button`
       filter: brightness(1.2);
     }
   }
+  &.red {
+    background-color: ${red};
+    color: ${white};
+    :hover {
+      filter: brightness(1.2);
+    }
+  }
   &.transparent {
     background-color: transparent;
     color: ${lighter};
@@ -87,4 +94,33 @@ export const FormFlexContainer = styled.form`
   background-color: ${mild};
   padding: 1rem;
   gap: 1rem;
+`;
+
+export const SquaredInput = styled.input`
+  border-radius: 0.5rem;
+  background-color: ${milder};
+  padding: 1rem;
+  font-size: 1.5rem;
+  color: ${lighter};
+  font-weight: 400;
+  ::placeholder {
+    font-size: 1.5rem;
+    color: ${lighter};
+    font-weight: 300;
+  }
+`;
+
+export const SquaredTextArea = styled.textarea`
+  border-radius: 0.5rem;
+  background-color: ${milder};
+  padding: 1rem;
+  font-size: 1.5rem;
+  color: ${lighter};
+  font-weight: 400;
+  min-height: 10rem;
+  ::placeholder {
+    font-size: 1.5rem;
+    color: ${lighter};
+    font-weight: 300;
+  }
 `;
