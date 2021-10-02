@@ -59,6 +59,9 @@ export const RegularButton = styled.button`
     transition: none;
     filter: brightness(0.8);
   }
+  &.half-p {
+    width: 50%;
+  }
   &.blue {
     background-color: ${blue};
     color: ${white};
@@ -70,7 +73,7 @@ export const RegularButton = styled.button`
     background-color: ${red};
     color: ${white};
     :hover {
-      filter: brightness(1.2);
+      filter: brightness(0.8);
     }
   }
   &.transparent {

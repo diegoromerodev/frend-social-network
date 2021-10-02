@@ -11,7 +11,12 @@ export default () => {
     <PostWrapper>
       <FlexContainer>
         <FlexColumnGrowElementCenter className="gap-y">
-          <a href="https://github.com/diegoromerodev">
+          <a
+            target="_blank"
+            style={{ flexGrow: 1, display: "flex", textDecoration: "none" }}
+            href="https://github.com/diegoromerodev"
+            rel="noreferrer"
+          >
             <RegularButton className="blue">Visit my github</RegularButton>
           </a>
           <RegularButton>Like post</RegularButton>
