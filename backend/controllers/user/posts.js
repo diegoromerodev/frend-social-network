@@ -13,7 +13,6 @@ exports.user_feed_get = (req, res, next) => {
         User.findById(req.params.userId).select("friends").exec(callback);
       },
       ({ friends }, callback) => {
-        console.log(friends);
         Post.where("author")
           .in(friends)
           .sort({ created_at: -1 })
