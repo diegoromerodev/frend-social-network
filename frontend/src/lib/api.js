@@ -11,10 +11,17 @@ export const fetchFeed = (token, userId) => {
 
 export const fetchChatroom = () => {};
 
-export const sendData = (e) => {
+export const sendData = (method, url, token, e) => {
   e.preventDefault();
-  const inputs = Array.from(e.target.children);
-  readFormData(inputs).then((data) => {
-    console.log(Array.from(data.entries()));
+  const formData = new FormData(e.target);
+  return fetch(url, {
+    mode: "cors",
+    method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  }).then((res) => {
+    console.log(res);
   });
 };

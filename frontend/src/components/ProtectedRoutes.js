@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Chatroom from "./Chatroom";
@@ -14,13 +14,14 @@ import Forms from "./forms/Forms";
 
 export default () => {
   const session = useSelector((state) => state.session.value);
+  const [reloadFeed, setReloadFeed] = useState(Date.now());
   return (
     <>
       {!session && <Redirect to="login" />}
       <NavBar />
-      <Forms />
+      <Forms setReloadFeed={setReloadFeed} />
       <Route path="/" exact>
-        <Feed />
+        <Feed reloadFeed={reloadFeed} />
       </Route>
       <Route path="/chatrooms">
         <Chatroom />

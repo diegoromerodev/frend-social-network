@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { sendData } from "../../lib/api";
+import { setMessageOnSwitch } from "../../lib/dataProcessing";
 import { setActiveForm } from "../slices/activeFormSlice";
 import {
   FormFlexContainer,
@@ -8,66 +9,35 @@ import {
   SquaredInput,
   SquaredTextArea,
 } from "../utilities/FormElements";
-import {
-  ImageForContainer,
-  StyledIcon,
-  StyledRegularP,
-} from "../utilities/Misc";
-import { BoldRegularLink, PostWrapper } from "../utilities/postElements";
-import {
-  BigContainer,
-  CircleContainer,
-  FlexColumnGrowElementCenter,
-  FlexContainer,
-} from "../utilities/SpaceContainers";
+import LoggedAsHeader from "../utilities/LoggedAsHeader";
+import { StyledIcon } from "../utilities/Misc";
+import { PostWrapper } from "../utilities/postElements";
+import { BigContainer, FlexContainer } from "../utilities/SpaceContainers";
 
-const NewPost = ({ type, session, dispatch }) => {
+const NewPost = ({ type, session, dispatch, setReloadFeed }) => {
   const [dataType, setDataType] = useState({});
   useEffect(() => {
-    let icon = "";
-    let message = "";
-    switch (type) {
-      case "comment":
-        icon = "fa-comment-dots";
-        message = "Write your comment...";
-        break;
-      case "image-post":
-        icon = "fa-camera-retro";
-        message = "Describe the photo...";
-        break;
-      case "emotion-post":
-        icon = "fa-face-grin-tears";
-        message = "Tell us about it...";
-        break;
-      default:
-        icon = "fa-book-open";
-        message = "Write your thoughts...";
-        break;
-    }
-    setDataType({
-      icon,
-      message,
-    });
+    setDataType(setMessageOnSwitch(type));
   }, []);
+  const handleSubmit = (e) => {
+    sendData(
+      "post",
+      `http://192.168.0.104:3000/users/${session.user._id}/posts`,
+      session.token,
+      e
+    ).then(() => {
+      dispatch(setActiveForm(""));
+      setReloadFeed(Date.now());
+    });
+  };
   return (
     <BigContainer>
       <PostWrapper className="pop-on">
-        <FlexContainer className="center-y">
-          <CircleContainer>
-            <ImageForContainer src={session.user.profile_photo} />
-          </CircleContainer>
-          <FlexColumnGrowElementCenter>
-            <StyledRegularP className="grey">Logged in as</StyledRegularP>
-            <BoldRegularLink>{session.user.full_name}</BoldRegularLink>
-          </FlexColumnGrowElementCenter>
-          <RegularButton
-            className="transparent no-grow"
-            onClick={() => dispatch(setActiveForm(""))}
-          >
-            <StyledIcon className="fa-solid fa-circle-xmark large" />
-          </RegularButton>
-        </FlexContainer>
-        <FormFlexContainer onSubmit={sendData} encType="multipart/form-data">
+        <LoggedAsHeader user={session.user} />
+        <FormFlexContainer
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
           <RegularButton className="transparent selected no-grow">
             <StyledIcon className={`fa-solid ${dataType.icon}`} />
             &nbsp;

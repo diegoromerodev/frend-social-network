@@ -13,8 +13,19 @@ exports.user_feed_get = (req, res, next) => {
         User.findById(req.params.userId).select("friends").exec(callback);
       },
       ({ friends }, callback) => {
-        Post.where("author")
-          .in(friends)
+        Post.find()
+          .and([
+            {
+              $or: [
+                {
+                  author: {
+                    $in: friends,
+                  },
+                },
+                { author: req.params.userId },
+              ],
+            },
+          ])
           .sort({ created_at: -1 })
           .populate("author")
           .populate({

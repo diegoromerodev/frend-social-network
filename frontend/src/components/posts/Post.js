@@ -27,8 +27,8 @@ export default ({ post }) => {
       )}
       {post.text && <PostBody to="/">{post.text}</PostBody>}
       {post.image && (
-        <PostLink to="/" image={post.image}>
-          <PostImage src={post.image} />
+        <PostLink to="/" image={post.url_formatter}>
+          <PostImage src={post.url_formatter} />
         </PostLink>
       )}
       <FlexContainer className="center-y spb-x padd-x padd-1-2">

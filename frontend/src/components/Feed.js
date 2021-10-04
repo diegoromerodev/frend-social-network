@@ -5,11 +5,12 @@ import Post from "./posts/Post";
 import Status from "./posts/Status";
 import { toggleLoading } from "./slices/loadingSlice";
 
-export default () => {
+export default ({ reloadFeed }) => {
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const session = useSelector((state) => state.session.value);
   useEffect(() => {
+    console.log("RELOADING");
     window.scrollTo(0, 0);
     if (!session) return;
     dispatch(toggleLoading());
@@ -17,7 +18,7 @@ export default () => {
       setPosts(data);
       dispatch(toggleLoading());
     });
-  }, [session]);
+  }, [session, reloadFeed]);
   return (
     <>
       <Status />
