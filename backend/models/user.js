@@ -3,18 +3,28 @@ const { DateTime } = require("luxon");
 
 const { Schema } = mongoose;
 
-const UserSchema = new Schema({
-  first_name: String,
-  last_name: String,
-  profile_photo: String,
-  birthday: Date,
-  facebook_id: String,
-  sent_requests: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  received_requests: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  email: String,
-  password: { type: String, default: "CatPasswordIsACat" },
-});
+const UserSchema = new Schema(
+  {
+    first_name: String,
+    last_name: String,
+    profile_photo: String,
+    birthday: Date,
+    facebook_id: String,
+    sent_requests: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    received_requests: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    email: String,
+    password: { type: String, default: "CatPasswordIsACat" },
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+  }
+);
 
 UserSchema.virtual("full_name").get(function getter() {
   return `${this.first_name} ${this.last_name}`;

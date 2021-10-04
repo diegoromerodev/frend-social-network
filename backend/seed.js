@@ -100,6 +100,13 @@ function addFriends(callback) {
   randUser.save(callback);
 }
 
+function findOneUser(callback) {
+  User.findById("61591d9335e01d54a8289d8c").exec((err, doc) => {
+    users.push(doc);
+    callback(err, doc);
+  });
+}
+
 function loopCreation(creatorFn, upperCallback) {
   let count = 0;
   const repetitions = Math.round(Math.random() * (100 - 2) + 4);
@@ -116,7 +123,8 @@ function loopCreation(creatorFn, upperCallback) {
 function runAll() {
   async.series(
     [
-      (finished) => loopCreation(createUser, finished),
+      // (finished) => loopCreation(createUser, finished),
+      (finished) => loopCreation(findOneUser, finished),
       (finished) => loopCreation(createPost, finished),
       (finished) => loopCreation(createComment, finished),
       (finished) => loopCreation(addFriends, finished),

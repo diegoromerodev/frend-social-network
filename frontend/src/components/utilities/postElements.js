@@ -42,6 +42,12 @@ export const BoldRegularLink = styled(Link)`
   font-weight: 500;
   text-decoration: none;
   display: flex;
+  @media only screen and (-webkit-min-device-pixel-ratio: 3),
+    only screen and (min--moz-device-pixel-ratio: 3),
+    only screen and (-o-min-device-pixel-ratio: 3/1),
+    only screen and (min-device-pixel-ratio: 3) {
+    font-size: 1.1rem;
+  }
 `;
 
 export const PostHeader = ({ image, username, date, heading }) => {
@@ -63,10 +69,11 @@ export const PostHeader = ({ image, username, date, heading }) => {
 };
 
 export const PostWrapper = styled.div`
-  margin: 1em 1em;
+  margin: 1em 0;
   border-radius: 0.5rem;
   overflow: hidden;
   background-color: ${milder};
+  width: 100%;
 `;
 
 export const LikesContainer = styled.div`

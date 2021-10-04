@@ -26,6 +26,15 @@ export const StyledRegularP = styled.p`
   &.large {
     font-size: 1.5rem;
   }
+  @media only screen and (-webkit-min-device-pixel-ratio: 3),
+    only screen and (min--moz-device-pixel-ratio: 3),
+    only screen and (-o-min-device-pixel-ratio: 3/1),
+    only screen and (min-device-pixel-ratio: 3) {
+    font-size: 1rem;
+    .large {
+      font-size: 2rem;
+    }
+  }
 `;
 
 export const StyledIcon = styled.i`

@@ -1,3 +1,5 @@
+require("./lib/auth/passport.js");
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -8,7 +10,6 @@ const postsRouter = require("./routes/posts");
 const { validate_token } = require("./controllers/auth");
 const path = require("path");
 
-require("./lib/auth/passport");
 require("dotenv").config();
 
 const app = express();

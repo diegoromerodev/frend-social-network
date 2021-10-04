@@ -16,6 +16,15 @@ exports.user_feed_get = (req, res, next) => {
         Post.where("author")
           .in(friends)
           .sort({ created_at: -1 })
+          .populate("author")
+          .populate({
+            path: "comments",
+            model: "Comment",
+            populate: {
+              path: "author",
+              model: "User",
+            },
+          })
           .exec(callback);
       },
     ],

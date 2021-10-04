@@ -1,5 +1,15 @@
 import styled from "styled-components";
-import { blue, light, lighter, mild, milder, red, white } from "./colors";
+import {
+  blue,
+  darkRed,
+  light,
+  lightBlue,
+  lighter,
+  mild,
+  milder,
+  red,
+  white,
+} from "./colors";
 
 export const RoundedInputButton = styled.button`
   flex-grow: 1;
@@ -45,7 +55,6 @@ export const RoundedInputField = styled.input`
 export const RegularButton = styled.button`
   flex-grow: 1;
   flex-shrink: 0;
-  padding: 5px;
   border-radius: 0.5rem;
   font-size: 1rem;
   padding: 0.5em 1.5em;
@@ -64,6 +73,7 @@ export const RegularButton = styled.button`
   }
   &.blue {
     background-color: ${blue};
+    border: 2px solid ${lightBlue};
     color: ${white};
     :hover {
       filter: brightness(1.2);
@@ -72,12 +82,14 @@ export const RegularButton = styled.button`
   &.red {
     background-color: ${red};
     color: ${white};
+    border: 2px solid ${darkRed};
     :hover {
       filter: brightness(0.8);
     }
   }
   &.transparent {
-    background-color: transparent;
+    border: 2px solid ${light};
+    background-color: ${milder};
     color: ${lighter};
     :hover,
     &.selected {
@@ -87,6 +99,12 @@ export const RegularButton = styled.button`
   }
   &.no-grow {
     flex-grow: 0;
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 3),
+    only screen and (min--moz-device-pixel-ratio: 3),
+    only screen and (-o-min-device-pixel-ratio: 3/1),
+    only screen and (min-device-pixel-ratio: 3) {
+    padding: 1rem;
   }
 `;
 

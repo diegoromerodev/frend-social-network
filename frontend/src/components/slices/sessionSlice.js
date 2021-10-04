@@ -7,17 +7,21 @@ export const sessionSlice = createSlice({
     value: "",
   },
   reducers: {
-    saveSession: (state, action) => {
+    writeSession(state, action) {
       localStorage.setItem("frends_session", JSON.stringify(action.payload));
       state.value = action.payload;
     },
-    deleteSession: (state) => {
+    deleteSession(state) {
       localStorage.setItem("frends_session", "");
       state.value = "";
+    },
+    saveSession(state, action) {
+      state.value = action.payload;
     },
   },
 });
 
-export const { saveSession, deleteSession } = sessionSlice.actions;
+export const { saveSession, deleteSession, writeSession } =
+  sessionSlice.actions;
 
 export default sessionSlice.reducer;

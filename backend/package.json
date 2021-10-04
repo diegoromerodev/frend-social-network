@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node lib/www/startServer.js",
-    "devstart": "nodemon lib/www/startServer.js"
+    "devstart": "set DEBUG=express:* & nodemon lib/www/startServer.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "luxon": "^2.0.2",
     "mongoose": "^6.0.8",
     "multer": "^1.4.3",
+    "node-fetch": "^3.0.0",
     "nodemon": "^2.0.13",
     "passport": "^0.5.0",
     "passport-facebook-token": "^4.0.0",
