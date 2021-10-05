@@ -10,7 +10,7 @@ export default ({ setUnreadNotifications }) => {
   const notifications = useSelector((state) => state.realTime.notifications);
   const dispatch = useDispatch();
   useEffect(() => {
-    const socket = io("http://localhost:3000");
+    const socket = io("https://frends-social.herokuapp.com/");
     socket.on("connect", () => {
       socket.emit("enter", session.user._id);
     });
