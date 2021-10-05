@@ -2,16 +2,19 @@ export const fetchFeed = (token, id, element) => {
   let url;
   switch (element) {
     case "post":
-      url = `http://192.168.0.104:3000/posts/${id}/`;
+      url = `https://frends-social.herokuapp.com/posts/${id}/`;
       break;
     case "notifications":
-      url = `http://192.168.0.104:3000/users/${id}/notifications`;
+      url = `https://frends-social.herokuapp.com/users/${id}/notifications`;
       break;
     case "chatrooms":
-      url = `http://192.168.0.104:3000/users/${id}/chatrooms`;
+      url = `https://frends-social.herokuapp.com/users/${id}/chatrooms`;
+      break;
+    case "user":
+      url = `https://frends-social.herokuapp.com/users/${id}/`;
       break;
     default:
-      url = `http://192.168.0.104:3000/users/${id}/feed`;
+      url = `https://frends-social.herokuapp.com/users/${id}/feed`;
       break;
   }
   return fetch(url, {
@@ -25,7 +28,7 @@ export const fetchFeed = (token, id, element) => {
 export const sendData = (method, url, token, e) => {
   e.preventDefault();
   let formData = new FormData(e.target);
-  if (url.indexOf("comments") !== -1) {
+  if (url.indexOf("comments") !== -1 || url.indexOf("chatrooms") !== -1) {
     const entries = formData.entries();
     formData = new URLSearchParams();
     for (const [key, value] of entries) {
@@ -45,7 +48,7 @@ export const sendData = (method, url, token, e) => {
 };
 
 export const manageLikes = (method, postId, token) => {
-  return fetch(`http://192.168.0.104:3000/posts/${postId}/likes`, {
+  return fetch(`https://frends-social.herokuapp.com/posts/${postId}/likes`, {
     mode: "cors",
     method,
     headers: {
@@ -58,7 +61,7 @@ export const manageLikes = (method, postId, token) => {
 
 export const deleteComments = (token, postId, commentId) => {
   return fetch(
-    `http://192.168.0.104:3000/posts/${postId}/comments/${commentId}`,
+    `https://frends-social.herokuapp.com/posts/${postId}/comments/${commentId}`,
     {
       mode: "cors",
       method: "delete",
@@ -70,18 +73,21 @@ export const deleteComments = (token, postId, commentId) => {
 };
 
 export const deletePost = (token, postId, userId) => {
-  return fetch(`http://192.168.0.104:3000/users/${userId}/posts/${postId}`, {
-    mode: "cors",
-    method: "delete",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return fetch(
+    `https://frends-social.herokuapp.com/users/${userId}/posts/${postId}`,
+    {
+      mode: "cors",
+      method: "delete",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
 
 export const manageCommentLikes = (token, postId, commentId, method) => {
   return fetch(
-    `http://192.168.0.104:3000/posts/${postId}/comments/${commentId}/likes`,
+    `https://frends-social.herokuapp.com/posts/${postId}/comments/${commentId}/likes`,
     {
       mode: "cors",
       method,
@@ -92,4 +98,51 @@ export const manageCommentLikes = (token, postId, commentId, method) => {
   ).then((res) => {
     console.log(res);
   });
+};
+
+export const manageNotifications = (token, method, userId, notiId = "") => {
+  const url = `https://frends-social.herokuapp.com/users/${userId}/notifications/${notiId}`;
+  fetch(url, {
+    method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => console.log(res));
+};
+
+export const createChatroom = (token, userId) => {
+  const url = `https://frends-social.herokuapp.com/users/${userId}/chatrooms`;
+  return fetch(url, {
+    method: "post",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const handleFriends = (token, method, field, currId, friendId) => {
+  let url;
+  const body = {};
+  if (field === "friends") {
+    url = `https://frends-social.herokuapp.com/users/${currId}/friends`;
+    body.friendId = friendId;
+    if (method === "delete")
+      url = `https://frends-social.herokuapp.com/users/${currId}/friends/${friendId}`;
+  }
+  if (field === "sent_requests") {
+    url = `https://frends-social.herokuapp.com/users/${friendId}/requests`;
+    if (method === "delete") body.sender = "true";
+  }
+  if (field === "received_requests") {
+    url = `https://frends-social.herokuapp.com/users/${friendId}/requests`;
+    if (method === "delete") body.sender = "false";
+  }
+  return fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  }).then(console.log);
 };

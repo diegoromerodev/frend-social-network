@@ -13,6 +13,7 @@ exports.user_notification_put = (req, res, next) => {
     { read: true },
     (err, noti) => {
       if (err) return next(err);
+      io.to(req.user.id.toString()).emit("notification");
       return res.json(noti);
     }
   );
@@ -23,6 +24,7 @@ exports.user_notification_delete = (req, res, next) => {
     { _id: req.params.notiId, user: req.user },
     (err) => {
       if (err) return next(err);
+      io.to(req.user.id.toString()).emit("notification");
       return res.json("DELETED NOTIFICATION");
     }
   );

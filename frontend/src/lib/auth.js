@@ -2,7 +2,7 @@ export const checkToken = (
   token,
   profile_photo = "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/20122208/Samoyed-standing-in-the-forest.jpg"
 ) => {
-  return fetch("http://192.168.0.104:3000/auth/facebook", {
+  return fetch("https://frends-social.herokuapp.com/auth/facebook", {
     mode: "cors",
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -17,7 +17,7 @@ export const checkToken = (
 };
 
 export const guestLogin = () => {
-  return fetch("http://192.168.0.104:3000/auth/local", {
+  return fetch("https://frends-social.herokuapp.com/auth/local", {
     mode: "cors",
     method: "post",
     headers: { "Content-Type": "application/json" },

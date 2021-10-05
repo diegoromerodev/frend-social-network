@@ -16,14 +16,10 @@ import { StyledIcon } from "../utilities/Misc";
 import { PostWrapper } from "../utilities/postElements";
 import { BigContainer, FlexContainer } from "../utilities/SpaceContainers";
 
-const EditPost = ({ type, session, dispatch, setReloadFeed, author, post }) => {
-  const [dataType, setDataType] = useState({});
-  useEffect(() => {
-    setDataType(setMessageOnSwitch(type));
-  }, []);
+const EditPost = ({ type, session, dispatch, post }) => {
   const handleSubmit = (e) => {
     dispatch(toggleLoading());
-    const url = `http://192.168.0.104:3000/users/${session.user._id}/posts/${post._id}`;
+    const url = `https://frends-social.herokuapp.com/users/${session.user._id}/posts/${post._id}`;
     sendData("put", url, session.token, e).then((data) => {
       dispatch(setActiveForm(""));
       fetchFeed(session.token, post.id, "post").then((data) => {

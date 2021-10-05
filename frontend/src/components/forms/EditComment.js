@@ -17,7 +17,7 @@ import { BigContainer, FlexContainer } from "../utilities/SpaceContainers";
 const EditComment = ({ session, dispatch, comment, post }) => {
   const handleSubmit = (e) => {
     dispatch(toggleLoading());
-    const url = `http://192.168.0.104:3000/posts/${post._id}/comments/${comment._id}`;
+    const url = `https://frends-social.herokuapp.com/posts/${post._id}/comments/${comment._id}`;
     sendData("put", url, session.token, e).then(() => {
       dispatch(setActiveForm(""));
       fetchFeed(session.token, post.id, "post").then((data) => {

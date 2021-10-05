@@ -95,6 +95,14 @@ exports.post_comment_new_post = [
     }).exec((err, post) => {
       if (err) return next(err);
       if (!post) return next(404);
+      new Notification({
+        user: post.author,
+        text: "You received a comment on your post",
+        url: post._id,
+      }).save((err, res) => {
+        if (err) return next(err);
+        io.to(post.author._id.toString()).emit("notification");
+      });
       res.json(post);
     });
   },

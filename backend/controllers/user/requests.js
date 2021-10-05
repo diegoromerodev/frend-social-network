@@ -30,6 +30,8 @@ exports.user_requests_post = (req, res, next) => {
             },
             (error) => {
               if (error) return next(error);
+              io.to(req.params.userId).emit("friend");
+              io.to(req.user._id).emit("friend");
               return res.json("FRIEND REQUEST SENT");
             }
           );
@@ -63,6 +65,8 @@ exports.user_requests_delete = (req, res, next) => {
         },
         (error) => {
           if (error) return next(err);
+          io.to(req.params.userId).emit("friend");
+          io.to(req.user._id).emit("friend");
           return res.json("FRIEND REQUEST REJECTED");
         }
       );

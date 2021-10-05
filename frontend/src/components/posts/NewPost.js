@@ -25,8 +25,8 @@ const NewPost = ({ type, session, dispatch, setReloadFeed, author, post }) => {
     dispatch(toggleLoading());
     const url =
       type === "comment"
-        ? `http://192.168.0.104:3000/posts/${post._id}/comments`
-        : `http://192.168.0.104:3000/users/${session.user._id}/posts`;
+        ? `https://frends-social.herokuapp.com/posts/${post._id}/comments`
+        : `https://frends-social.herokuapp.com/users/${session.user._id}/posts`;
     sendData("post", url, session.token, e).then(() => {
       dispatch(setActiveForm(""));
       fetchFeed(session.token, post.id, "post").then((data) => {

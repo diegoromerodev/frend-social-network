@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { blue, dark, lighter, mild, milder, white } from "./colors";
 import { RegularButton } from "./FormElements";
@@ -10,19 +11,36 @@ import {
   FlexContainer,
 } from "./SpaceContainers";
 
-export const UserChatButton = ({ user }) => {
+export const UserChatButton = ({
+  chat,
+  currChat,
+  setCurrentChatId,
+  session,
+  setRecipient,
+}) => {
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    if (chat.participants[0]._id === session.user._id) {
+      setUser(chat.participants[1]);
+      if (chat._id === currChat) setRecipient(chat.participants[1]);
+      return;
+    }
+    setUser(chat.participants[0]);
+    if (chat._id === currChat) setRecipient(chat.participants[0]);
+  }, [currChat]);
   return (
     <RegularButton
-      className={user.name === "Diego Loco" ? "blue" : "transparent"}
+      className={currChat === chat._id ? "blue" : "transparent"}
+      onClick={() => setCurrentChatId(chat._id)}
     >
       <FlexColumnGrowElementCenter className="center gap-y">
-        <CircleContainer>
+        <CircleContainer to="#">
           <ImageForContainer src={user.profile_photo} />
         </CircleContainer>
         <FlexColumnGrowElementCenter>
-          <BoldRegularLink to="/">{user.name}</BoldRegularLink>
+          <BoldRegularLink to="#">{user.full_name}</BoldRegularLink>
           <StyledRegularP className="grey">
-            {user.date || "No new messages"}
+            {chat.messages.length || "No messages"}
           </StyledRegularP>
         </FlexColumnGrowElementCenter>
       </FlexColumnGrowElementCenter>

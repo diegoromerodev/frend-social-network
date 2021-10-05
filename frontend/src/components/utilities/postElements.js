@@ -54,10 +54,17 @@ export const BoldRegularLink = styled(Link)`
   }
 `;
 
-export const PostHeader = ({ image, username, date, heading, handleDots }) => {
+export const PostHeader = ({
+  image,
+  username,
+  date,
+  heading,
+  handleDots,
+  id,
+}) => {
   return (
     <FlexContainer className="center-y">
-      <CircleContainer>
+      <CircleContainer to={`/users/${id}`}>
         <ImageForContainer src={image} />
       </CircleContainer>
       <FlexColumnGrowElementCenter>

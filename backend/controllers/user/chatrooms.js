@@ -18,6 +18,7 @@ exports.user_chatrooms_all_get = (req, res, next) => {
         select: "first_name last_name profile_photo",
       },
     })
+    .populate("participants")
     .exec((err, chats) => {
       if (err) next(err);
       res.json(chats);
@@ -29,6 +30,8 @@ exports.user_chatroom_new_post = (req, res, next) => {
     participants: [req.params.userId, req.user._id.toString()],
   }).save((err, chat) => {
     if (err) next(err);
+    io.to(req.user.id.toString()).emit("message");
+    io.to(req.params.userId).emit("message");
     res.json(chat);
   });
 };
@@ -59,6 +62,7 @@ exports.user_chatroom_delete = (req, res, next) => {
   Chatroom.find({ _id: req.params.chatId, participants: req.user }).deleteOne(
     (err) => {
       if (err) return next(err);
+      io.to(req.user.id.toString()).emit("notification");
       res.json("CHAT WIPED OFF THE FACE OF THE EARTH");
     }
   );
@@ -73,7 +77,6 @@ exports.user_chatroom_message_post = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json(errors);
-    console.log("HERE");
     const newMsg = new Message({
       sender: req.user,
       recipient: req.body.recipient,
@@ -86,7 +89,7 @@ exports.user_chatroom_message_post = [
       {
         _id: req.params.chatId,
         participants: {
-          $all: [req.user, req.body.recipient],
+          $all: [req.user.id, req.body.recipient],
         },
       },
       {
@@ -96,8 +99,12 @@ exports.user_chatroom_message_post = [
       }
     ).exec((err, chat) => {
       if (err) return next(err);
+
       if (!chat) return next(404);
-      res.json(chat);
+      for (const participant of chat.participants) {
+        io.to(participant.toString()).emit("message");
+      }
+      return res.json(chat);
     });
   },
 ];
@@ -114,6 +121,9 @@ exports.user_chatroom_message_delete = (req, res, next) => {
     if (err) return next(err);
     Message.findByIdAndDelete(req.params.chatId, (error) => {
       if (error) return next(err);
+      for (const participant of chat.participants) {
+        io.to(participant.toString()).emit("message");
+      }
       res.json(chat);
     });
   });

@@ -44,8 +44,6 @@ exports.users_new_post = [
 ];
 
 exports.users_one_get = (req, res, next) => {
-  if (req.user._id.toString() !== req.params.userId)
-    return res.status(401).json("Unauthorized");
   User.findById(req.params.userId).exec((err, user) => {
     if (err) return next(err);
     const foundUser = user.toObject();
@@ -55,6 +53,7 @@ exports.users_one_get = (req, res, next) => {
 };
 
 exports.users_one_update = [
+  upload.single("profile_photo"),
   body("first_name", "First name can't be empty")
     .trim()
     .isLength({ min: 1 })
@@ -63,10 +62,10 @@ exports.users_one_update = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("email", "Email is required").trim().isEmail().escape(),
   (req, res, next) => {
     if (req.user._id.toString() !== req.params.userId)
       return res.status(401).json("Unauthorized");
+    console.log(req.body, req.file);
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json(errors);
     const userUpdates = {
@@ -75,7 +74,10 @@ exports.users_one_update = [
       email: req.body.email,
       birthday: req.body.birthday || new Date(0),
     };
-    if (req.file) userUpdates.profile_photo = req.file.filename;
+    if (req.file)
+      userUpdates.profile_photo = `${req.protocol}://${req.get(
+        "host"
+      )}/images/${req.file.filename}`;
     User.findByIdAndUpdate(req.params.userId, userUpdates, (err, user) => {
       if (err) return next(err);
       const updatedUser = user.toObject();

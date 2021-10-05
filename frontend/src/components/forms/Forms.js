@@ -5,6 +5,7 @@ import { FullContFlex } from "../popups/Loading";
 import NewPost from "../posts/NewPost";
 import EditComment from "./EditComment";
 import EditPost from "./EditPost";
+import EditProfile from "./EditProfile";
 
 export default ({ setReloadFeed }) => {
   const activeForm = useSelector((state) => state.activeForm.value);
@@ -16,6 +17,7 @@ export default ({ setReloadFeed }) => {
       {activeForm === "post-more" && <GeneralOptions />}
       {activeForm === "post-edit" && <EditPost />}
       {activeForm === "comment-edit" && <EditComment />}
+      {activeForm === "profile-edit" && <EditProfile />}
     </FullContFlex>
   );
 };

@@ -94,9 +94,11 @@ export default ({ unreadNotifications }) => {
                 <StyledIcon className="fa-solid fa-message large" />
               </RegularButton>
             </BoldRegularLink>
-            <CircleContainer>
-              <ImageForContainer src={session && session.user.profile_photo} />
-            </CircleContainer>
+            {session.user && (
+              <CircleContainer to={`/users/${session.user._id}`}>
+                <ImageForContainer src={session.user.profile_photo} />
+              </CircleContainer>
+            )}
           </FlexContainer>
         </MenuContent>
       </Bar>

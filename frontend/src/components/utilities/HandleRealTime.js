@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 import { fetchFeed } from "../../lib/api";
 import { setField } from "../slices/realTimeSlice";
+import { setAllRequests, writeSession } from "../slices/sessionSlice";
 
 export default ({ setUnreadNotifications }) => {
   const session = useSelector((state) => state.session.value);
@@ -14,24 +15,36 @@ export default ({ setUnreadNotifications }) => {
       socket.emit("enter", session.user._id);
     });
     socket.on(`message`, () => {
-      fetchFeed(session.token, session.user._id, "chatrooms").then((data) => {
-        console.log("received message");
+      fetchFeed(session.token, session.user?._id, "chatrooms").then((data) => {
         dispatch(setField({ field: "chatrooms", data }));
       });
     });
     socket.on(`notification`, () => {
-      console.log("received notification");
-      fetchFeed(session.token, session.user._id, "notifications").then(
+      fetchFeed(session.token, session.user?._id, "notifications").then(
         (data) => {
           dispatch(setField({ field: "notifications", data }));
         }
       );
     });
-    fetchFeed(session.token, session.user._id, "chatrooms").then((data) => {
+    socket.on(`friend`, () => {
+      fetchFeed(session.token, session.user?._id, "user").then((data) => {
+        if (!data) return;
+        const { friends, sent_requests, received_requests } = data;
+        dispatch(setAllRequests({ friends, sent_requests, received_requests }));
+      });
+    });
+    fetchFeed(session.token, session.user?._id, "chatrooms").then((data) => {
       dispatch(setField({ field: "chatrooms", data }));
     });
-    fetchFeed(session.token, session.user._id, "notifications").then((data) => {
-      dispatch(setField({ field: "notifications", data }));
+    fetchFeed(session.token, session.user?._id, "notifications").then(
+      (data) => {
+        dispatch(setField({ field: "notifications", data }));
+      }
+    );
+    fetchFeed(session.token, session.user?._id, "user").then((data) => {
+      if (!data) return;
+      const { friends, sent_requests, received_requests } = data;
+      dispatch(setAllRequests({ friends, sent_requests, received_requests }));
     });
     return () => socket.disconnect();
   }, []);

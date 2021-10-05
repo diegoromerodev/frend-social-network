@@ -1,94 +1,25 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { RegularButton } from "../utilities/FormElements";
-import {
-  ImageForContainer,
-  Separator,
-  StyledIcon,
-  StyledRegularP,
-} from "../utilities/Misc";
-import { BoldRegularLink, PostWrapper } from "../utilities/postElements";
-import {
-  CircleContainer,
-  FlexColumnGrowElementCenter,
-  FlexContainer,
-} from "../utilities/SpaceContainers";
-
-const notifications = [
-  {
-    image:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/full-frame-shot-of-pumpkins-at-market-royalty-free-image-1603205337.jpg",
-    name: "Diego R.",
-    text: "liked your post",
-    type: "like",
-  },
-  {
-    image:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-106519389-1595002835.png",
-    name: "Maria R.",
-    text: "sent you a friend request",
-    type: "friend",
-  },
-  {
-    image:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/full-frame-shot-of-pumpkins-at-market-royalty-free-image-1603205337.jpg",
-    name: "Diego R.",
-    text: "liked your post",
-    type: "like",
-  },
-  {
-    image:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-106519389-1595002835.png",
-    name: "Maria R.",
-    text: "sent you a friend request",
-    type: "friend",
-  },
-  {
-    image:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/full-frame-shot-of-pumpkins-at-market-royalty-free-image-1603205337.jpg",
-    name: "Diego R.",
-    text: "liked your post",
-    type: "like",
-  },
-  {
-    image:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-106519389-1595002835.png",
-    name: "Maria R.",
-    text: "liked your post",
-    type: "like",
-  },
-];
+import { StyledIcon } from "../utilities/Misc";
+import { PostWrapper } from "../utilities/postElements";
+import { FlexContainer } from "../utilities/SpaceContainers";
+import NotificationItem from "./NotificationItem";
 
 export default () => {
-  return (
+  const notifications = useSelector((state) => state.realTime.notifications);
+  const session = useSelector((state) => state.session.value);
+  return session?.user?.first_name ? (
     <PostWrapper>
       <FlexContainer>
         <RegularButton className="transparent selected">
           <StyledIcon className="fa-solid fa-bell" />
-          &nbsp;Diego&apos;s notification center
+          &nbsp;{session?.user?.first_name}&apos;s notification center
         </RegularButton>
       </FlexContainer>
-      {notifications.map((user) => (
-        <>
-          <Separator />
-          <FlexContainer className="center-y spb-x">
-            <BoldRegularLink to="/">
-              <CircleContainer>
-                <ImageForContainer src={user.image} />
-              </CircleContainer>
-              <FlexColumnGrowElementCenter>
-                <FlexContainer className="gap-x-half center-y">
-                  <StyledIcon className="fa-solid fa-heart" />
-                  <BoldRegularLink>{user.name}</BoldRegularLink>
-                  <StyledRegularP>{user.text}</StyledRegularP>
-                </FlexContainer>
-              </FlexColumnGrowElementCenter>
-            </BoldRegularLink>
-            <RegularButton className="transparent no-grow">
-              <StyledIcon className="fa-solid fa-circle-xmark large" />
-            </RegularButton>
-          </FlexContainer>
-        </>
+      {notifications.map((notification) => (
+        <NotificationItem notification={notification} />
       ))}
     </PostWrapper>
-  );
+  ) : null;
 };

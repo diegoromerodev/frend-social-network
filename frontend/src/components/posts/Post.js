@@ -53,6 +53,7 @@ export default ({ post, handleDelete, query }) => {
           date={postData.formatted_creation}
           heading={postData.heading}
           handleDots={handleDots}
+          id={post.author._id}
         />
       )}
       {postData.text && (

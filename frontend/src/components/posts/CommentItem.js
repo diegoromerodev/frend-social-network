@@ -35,7 +35,7 @@ export default ({ comment, post, session, confirm }) => {
   }, []);
   return (
     <FlexContainer className="transparent">
-      <CircleContainer>
+      <CircleContainer to={`/users/${comment?.author?._id}`}>
         <ImageForContainer src={comment?.author?.profile_photo} />
       </CircleContainer>
       <FlexColumnGrowElementCenter>

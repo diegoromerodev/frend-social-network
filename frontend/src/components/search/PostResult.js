@@ -10,9 +10,9 @@ export default ({ post, query }) => {
   const history = useHistory();
   const session = useSelector((state) => state.session.value);
   const handleDelete = (postId, userId) => {
-    dispatch(toggleLoading);
+    dispatch(toggleLoading());
     deletePost(session.token, postId, userId).then(() => {
-      dispatch(toggleLoading);
+      dispatch(toggleLoading());
       history.push("/");
     });
   };

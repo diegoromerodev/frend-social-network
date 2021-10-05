@@ -44,6 +44,8 @@ exports.user_new_friend_post = [
       },
       (err, results) => {
         if (err) return next(err);
+        io.to(req.params.userId).emit("friend");
+        io.to(req.body.friendId).emit("friend");
         if (results.sender && results.receiver)
           return res.json("BOTH FRIENDS UPDATED SUCCESSFULLY");
         return next(404);
@@ -78,6 +80,8 @@ exports.user_friend_delete = (req, res, next) => {
     },
     (err) => {
       if (err) return next(err);
+      io.to(req.params.userId).emit("friend");
+      io.to(req.params.friendId).emit("friend");
       return res.json("BOTH UNFRIENDED SUCCESSFULLY");
     }
   );

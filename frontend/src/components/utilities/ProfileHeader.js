@@ -1,4 +1,5 @@
 import React from "react";
+import ProfileActions from "../ProfileActions";
 import { RegularButton } from "./FormElements";
 import { ImageForContainer, StyledRegularP } from "./Misc";
 import { PostWrapper } from "./postElements";
@@ -8,18 +9,18 @@ import {
   FlexContainer,
 } from "./SpaceContainers";
 
-export default () => {
+export default ({ user, session }) => {
+  if (!user?._id) return null;
   return (
     <PostWrapper>
       <FlexContainer>
         <FlexColumnGrowElementCenter className="center gap-y">
-          <CircleContainer className="large">
-            <ImageForContainer src="https://puestoviejoestancia.com.ar/l/glamping/wp-content/uploads/2014/10/speaker-2-v2.jpg" />
+          <CircleContainer className="large" to="#">
+            <ImageForContainer src={user.profile_photo} />
           </CircleContainer>
-          <StyledRegularP className="large">John Doe</StyledRegularP>
+          <StyledRegularP className="large">{user.full_name}</StyledRegularP>
           <FlexContainer className="padd-0">
-            <RegularButton className="blue">Add as a friend</RegularButton>
-            <RegularButton>Send message</RegularButton>
+            <ProfileActions user={user} session={session} />
           </FlexContainer>
         </FlexColumnGrowElementCenter>
       </FlexContainer>
