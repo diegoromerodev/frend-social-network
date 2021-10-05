@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import ChatMessages from "../ChatMessages";
 import { blue, dark, lighter, mild, milder, white } from "./colors";
 import { RegularButton } from "./FormElements";
 import { ImageForContainer, StyledRegularP } from "./Misc";
@@ -40,7 +41,11 @@ export const UserChatButton = ({
         <FlexColumnGrowElementCenter>
           <BoldRegularLink to="#">{user.full_name}</BoldRegularLink>
           <StyledRegularP className="grey">
-            {chat.messages.length || "No messages"}
+            {chat.messages.length
+              ? `${chat.messages.length} message${
+                  chat.messages.length > 1 && "s"
+                }`
+              : "No messages"}
           </StyledRegularP>
         </FlexColumnGrowElementCenter>
       </FlexColumnGrowElementCenter>
