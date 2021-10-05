@@ -43,7 +43,7 @@ export const UserChatButton = ({
           <StyledRegularP className="grey">
             {chat.messages.length
               ? `${chat.messages.length} message${
-                  chat.messages.length > 1 && "s"
+                  chat.messages.length > 1 ? "s" : ""
                 }`
               : "No messages"}
           </StyledRegularP>
