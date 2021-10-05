@@ -19,6 +19,7 @@ exports.post_one_get = (req, res, next) => {
         select: "first_name last_name profile_photo",
       },
     })
+    .populate("author")
     .exec((err, post) => {
       if (err) return next(err);
       if (!post) return next(404);

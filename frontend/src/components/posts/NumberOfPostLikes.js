@@ -13,7 +13,8 @@ export default ({ numberOfLikes, numberOfComments, id }) => {
       </LikesContainer>
 
       <BoldRegularLink to={`/posts/${id}`}>
-        {numberOfComments} comments
+        {numberOfComments} comment
+        {numberOfComments === 1 ? "" : "s"}
       </BoldRegularLink>
     </FlexContainer>
   );

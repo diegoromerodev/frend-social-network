@@ -11,6 +11,7 @@ import Feed from "./Feed";
 import Forms from "./forms/Forms";
 import HandleRealTime from "./utilities/HandleRealTime";
 import UserProfile from "./UserProfile";
+import SinglePost from "./SinglePost";
 
 export default () => {
   const session = useSelector((state) => state.session.value);
@@ -44,7 +45,10 @@ export default () => {
           </Route>
           <Route path="/users/:userId">
             <UserProfile />
-          </Route>{" "}
+          </Route>
+          <Route path="/posts/:postId">
+            <SinglePost />
+          </Route>
         </>
       )}
     </>
