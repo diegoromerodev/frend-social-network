@@ -36,6 +36,7 @@ exports.user_feed_get = (req, res, next) => {
               model: "User",
             },
           })
+          .limit(10)
           .exec(callback);
       },
     ],
@@ -120,6 +121,8 @@ exports.user_posts_update_put = [
 ];
 
 exports.user_posts_delete = (req, res, next) => {
+  if (req.user._id.toString() !== req.params.userId)
+    return res.status(401).json("Unauthorized");
   Post.findOne({ author: req.params.userId, _id: req.params.postId })
     .deleteOne()
     .exec((err) => {

@@ -13,6 +13,7 @@ const io = new Server(server, {
 
 io.on("connect", (client) => {
   client.on("enter", (roomID) => {
+    console.log("entered", roomID);
     client.join(roomID);
   });
 });

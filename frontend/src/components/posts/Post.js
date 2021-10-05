@@ -1,65 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import CommentSection from "./CommentSection";
 
-import { RegularButton, RoundedInputButton } from "../utilities/FormElements";
-import { ImageForContainer, Separator, StyledIcon } from "../utilities/Misc";
 import {
-  BoldRegularLink,
-  LikesContainer,
   PostBody,
   PostHeader,
   PostImage,
   PostLink,
   PostWrapper,
 } from "../utilities/postElements";
-import { CircleContainer, FlexContainer } from "../utilities/SpaceContainers";
+import { setActiveForm } from "../slices/activeFormSlice";
+import { setCurrentPost } from "../slices/currentPostSlice";
+import WriteAComment from "./WriteAComment";
+import PostActions from "./PostActions";
+import NumberOfPostLikes from "./NumberOfPostLikes";
+import { highlight } from "../search/Search";
 
-export default ({ post }) => {
+export default ({ post, handleDelete, query }) => {
+  const [comments, setComments] = useState([]);
+  const session = useSelector((state) => state.session.value);
+  const currentPost = useSelector((state) => state.currentPost.value);
+  const [postData, setPostData] = useState(post);
+  const [numberOfLikes, setNumberOfLikes] = useState(postData.likes.length);
+  const dispatch = useDispatch();
+
+  const handleComment = () => {
+    dispatch(setCurrentPost(post));
+    dispatch(setActiveForm("comment"));
+  };
+
+  const handleDots = () => {
+    dispatch(setCurrentPost(postData));
+    dispatch(setActiveForm("post-more"));
+  };
+
+  useEffect(() => {
+    if (currentPost._id === post._id) {
+      console.log(postData);
+      setPostData({ ...currentPost });
+      setComments([...currentPost.comments]);
+      return;
+    }
+    setPostData(postData);
+    setComments(postData.comments);
+  }, [currentPost]);
   return (
     <PostWrapper className="up-motion">
       {post.author && (
         <PostHeader
           image={post.author.profile_photo}
           username={post.author.full_name}
-          date={post.formatted_creation}
-          heading={post.heading}
+          date={postData.formatted_creation}
+          heading={postData.heading}
+          handleDots={handleDots}
         />
       )}
-      {post.text && <PostBody to="/">{post.text}</PostBody>}
-      {post.image && (
-        <PostLink to="/" image={post.url_formatter}>
-          <PostImage src={post.url_formatter} />
+      {postData.text && (
+        <PostBody to={`/posts/${post._id}`}>
+          {highlight(postData.text, query)}
+        </PostBody>
+      )}
+      {postData.image && (
+        <PostLink to={`/posts/${postData._id}`} image={postData.url_formatter}>
+          <PostImage src={postData.url_formatter} />
         </PostLink>
       )}
-      <FlexContainer className="center-y spb-x padd-x padd-1-2">
-        {post.likes && (
-          <LikesContainer>
-            <StyledIcon className="fa-solid fa-heart" />
-            &nbsp;{post.likes.length} Like{post.likes.length === 1 ? "" : "s"}
-          </LikesContainer>
-        )}
-        <BoldRegularLink>10 comments</BoldRegularLink>
-      </FlexContainer>
-      <FlexContainer className="wrap padd-x">
-        <Separator />
-        <RegularButton className="transparent">
-          <StyledIcon className="fa-solid fa-heart" />
-          &nbsp;Like
-        </RegularButton>
-        <RegularButton className="transparent">
-          <StyledIcon className="fa-solid fa-comments" />
-          &nbsp;Comment
-        </RegularButton>
-        <RegularButton className="red">Delete Post</RegularButton>
-        <Separator />
-      </FlexContainer>
-      {post.comments && <CommentSection comments={post.comments} />}
-      <FlexContainer>
-        <CircleContainer>
-          <ImageForContainer src="https://i.pinimg.com/564x/ed/02/62/ed02622c207a5b4b4d9acb065b44b55f.jpg" />
-        </CircleContainer>
-        <RoundedInputButton>Write a comment...</RoundedInputButton>
-      </FlexContainer>
+      <NumberOfPostLikes
+        numberOfLikes={numberOfLikes}
+        numberOfComments={postData.comments.length}
+        id={postData._id}
+      />
+      <PostActions
+        handleComment={handleComment}
+        post={post}
+        session={session}
+        handleDelete={handleDelete}
+        setNumberOfLikes={setNumberOfLikes}
+      />
+      {comments && <CommentSection comments={comments} post={postData} />}
+      <WriteAComment user={session.user} handleComment={handleComment} />
     </PostWrapper>
   );
 };

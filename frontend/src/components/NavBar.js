@@ -50,7 +50,7 @@ const Spacer = styled.div`
   margin-bottom: 1rem;
 `;
 
-export default () => {
+export default ({ unreadNotifications }) => {
   const navBarRef = useRef(null);
   const [height, setHeight] = useState(0);
   useEffect(() => {
@@ -79,7 +79,13 @@ export default () => {
               </RegularButton>
             </BoldRegularLink>
             <BoldRegularLink to="/notifications">
-              <RegularButton className="transparent no-grow">
+              <RegularButton
+                className={
+                  !unreadNotifications.length
+                    ? "transparent no-grow"
+                    : "blue no-grow"
+                }
+              >
                 <StyledIcon className="fa-solid fa-bell large" />
               </RegularButton>
             </BoldRegularLink>

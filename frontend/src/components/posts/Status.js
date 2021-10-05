@@ -18,7 +18,7 @@ export default () => {
         <RoundedInputButton
           onClick={() => dispatch(setActiveForm("emotion-post"))}
         >
-          What&apos;s on your mind, Diego?
+          What&apos;s on your mind, {session && session.user.first_name}?
         </RoundedInputButton>
       </FlexContainer>
       <Separator />

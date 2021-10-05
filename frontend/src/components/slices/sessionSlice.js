@@ -18,10 +18,24 @@ export const sessionSlice = createSlice({
     saveSession(state, action) {
       state.value = action.payload;
     },
+    addUserGeneral(state, action) {
+      state.value.user[action.payload.field].push(action.payload.elId);
+    },
+    removeUserGeneral(state, action) {
+      state.value.user[action.payload.field] = state.value.user[
+        action.payload.field
+      ].filter((el) => el !== action.payload.elId);
+    },
   },
 });
 
-export const { saveSession, deleteSession, writeSession } =
-  sessionSlice.actions;
+export const {
+  saveSession,
+  deleteSession,
+  writeSession,
+  addLike,
+  addUserGeneral,
+  removeUserGeneral,
+} = sessionSlice.actions;
 
 export default sessionSlice.reducer;

@@ -8,6 +8,7 @@ import {
 } from "./SpaceContainers";
 import { ImageForContainer, StyledIcon, StyledRegularP } from "./Misc";
 import { lighter, mild, milder, white } from "./colors";
+import { RegularButton } from "./FormElements";
 
 export const PostImage = styled.img`
   max-height: 50vh;
@@ -42,6 +43,9 @@ export const BoldRegularLink = styled(Link)`
   font-weight: 500;
   text-decoration: none;
   display: flex;
+  &.no-flex {
+    display: block;
+  }
   @media only screen and (-webkit-min-device-pixel-ratio: 3),
     only screen and (min--moz-device-pixel-ratio: 3),
     only screen and (-o-min-device-pixel-ratio: 3/1),
@@ -50,7 +54,7 @@ export const BoldRegularLink = styled(Link)`
   }
 `;
 
-export const PostHeader = ({ image, username, date, heading }) => {
+export const PostHeader = ({ image, username, date, heading, handleDots }) => {
   return (
     <FlexContainer className="center-y">
       <CircleContainer>
@@ -63,7 +67,9 @@ export const PostHeader = ({ image, username, date, heading }) => {
         </FlexContainer>
         <StyledRegularP className="grey">{date}</StyledRegularP>
       </FlexColumnGrowElementCenter>
-      <StyledIcon className="fa-solid fa-ellipsis-vertical" />
+      <RegularButton onClick={handleDots} className="transparent no-grow">
+        <StyledIcon className="fa-solid fa-ellipsis-vertical" />
+      </RegularButton>
     </FlexContainer>
   );
 };
@@ -74,6 +80,9 @@ export const PostWrapper = styled.div`
   overflow: hidden;
   background-color: ${milder};
   width: 100%;
+  &.transparent {
+    background-color: transparent;
+  }
 `;
 
 export const LikesContainer = styled.div`

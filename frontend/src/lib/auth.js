@@ -22,8 +22,8 @@ export const guestLogin = () => {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      username: "totallydiegosemail@email.com",
-      password: "this123",
+      username: "testing_friends@yahoo.com",
+      password: "CatPasswordIsACat",
     }),
   }).then((res, err) => {
     if (err) return;

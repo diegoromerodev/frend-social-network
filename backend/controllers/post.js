@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const Comment = require("../models/comment");
+const Notification = require("../models/notification");
 const Post = require("../models/post");
 
 exports.posts_all_get = (req, res, next) => {
@@ -38,6 +39,14 @@ exports.post_like_post = (req, res, next) => {
     (err, post) => {
       if (err) return next(err);
       if (!post) return next(404);
+      new Notification({
+        user: post.author,
+        text: "You received a like on your post",
+        url: post._id,
+      }).save((err, res) => {
+        if (err) return next(err);
+        io.to(post.author._id.toString()).emit("notification");
+      });
       res.json(post);
     }
   );
@@ -67,6 +76,7 @@ exports.post_comment_new_post = [
     .isLength({ min: 1 })
     .escape(),
   (req, res, next) => {
+    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json(errors);
 
@@ -109,7 +119,21 @@ exports.post_comment_update_put = [
     );
   },
 ];
-exports.post_comment_delete = (req, res, next) => {
+exports.post_comment_delete = async (req, res, next) => {
+  const comment = await Comment.findById(req.params.commentId)
+    .populate("author")
+    .exec();
+  const post = await Post.findOne({
+    _id: req.params.postId,
+    comments: req.params.commentId,
+  })
+    .populate("author")
+    .exec();
+  if (
+    comment.author._id.toString() !== req.user.id &&
+    post.author._id.toString() !== req.user.id
+  )
+    return res.status(401).json("FORBIDDEN");
   Post.findOneAndUpdate(
     {
       _id: req.params.postId,

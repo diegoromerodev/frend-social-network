@@ -9,6 +9,7 @@ const usersRouter = require("./routes/users").router;
 const postsRouter = require("./routes/posts");
 const { validate_token } = require("./controllers/auth");
 const path = require("path");
+const { search_get } = require("./controllers/search.js");
 
 require("dotenv").config();
 
@@ -27,6 +28,7 @@ app.use(passport.initialize());
 app.use("/auth", authRouter);
 app.use("/users", validate_token, usersRouter);
 app.use("/posts", validate_token, postsRouter);
+app.get("/search/:searchParam", validate_token, search_get);
 
 app.use((req, res, next) => {
   next(new Error(404));
