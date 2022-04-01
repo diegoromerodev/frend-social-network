@@ -1,5 +1,8 @@
 # FRENDS
 
+![FRENDS](https://user-images.githubusercontent.com/74877521/161288226-7b61bf65-2a38-42f1-92ba-ba1d1aaf54be.jpg)
+
+
 ## Demo
 [FRENDS](https://frends-social.herokuapp.com/)
 
